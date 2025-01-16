@@ -26,6 +26,7 @@ app.use(cors(corsOptions));
 // Middleware
 app.use(express.json()); // Parse incoming JSON requests
 app.use("/api/users", userRoutes); // user routes
+
 // MongoDB Connection
 mongoose
   .connect(process.env.MONGODB_URI, {

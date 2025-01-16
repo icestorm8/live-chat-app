@@ -25,9 +25,13 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false, // Default to offline
     },
-    lastActive: {
+    lastLogin: {
       type: Date,
-      default: Date.now, // Track last active time
+      default: Date.now,
+    },
+    lastUpdate: {
+      type: Date,
+      default: Date.now,
     },
     // avatarUrl: {
     //   type: String,

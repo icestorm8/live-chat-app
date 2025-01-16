@@ -78,6 +78,11 @@ router.post("/login", async (req, res) => {
         message: "incorrect password",
       });
     }
+
+    // Update the last login time
+    user.lastLogin = Date.now(); // Set to current time
+    await user.save(); // Save the updated user document
+
     // Create JWT token (sign with user ID and other data)
     const token = jwt.sign(
       { userId: user._id, username: user.username }, // Payload (data to include in token)
@@ -92,6 +97,33 @@ router.post("/login", async (req, res) => {
     res
       .status(200)
       .json({ message: "Login successful!", user: userResponse, token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+});
+
+// GET route for getting my info (logged in user)
+router.get("/me", authenticateToken, async (req, res) => {
+  try {
+    // authenticate token will recover the user id from the jwt token so i can fetch the user's data
+    // get user by id (don't return the password as its a sensitive data)
+    const user = await User.findById(req.user.userId).select("-password");
+    if (!user) {
+      // user doesn't exist - error
+      return res.status(404).json({
+        message: "user wasn't found",
+      });
+    }
+
+    const userResponse = user.toObject();
+    delete userResponse.password; // Remove the password before sending the response
+
+    // return user data
+    res.status(200).json({
+      message: "User profile fetched successfully.",
+      user: userResponse,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Something went wrong" });
@@ -125,30 +157,4 @@ router.get("/:userId", async (req, res) => {
   }
 });
 
-// GET route for getting my info (logged in user)
-router.get("/me", authenticateToken, async (req, res) => {
-  try {
-    // authenticate token will recover the user id from the jwt token so i can fetch the user's data
-    // get user by id (don't return the password as its a sensitive data)
-    const user = await User.findById(req.user.userId).select("-password");
-    if (!user) {
-      // user doesn't exist - error
-      return res.status(404).json({
-        message: "user wasn't found",
-      });
-    }
-
-    const userResponse = user.toObject();
-    delete userResponse.password; // Remove the password before sending the response
-
-    // return user data
-    res.status(200).json({
-      message: "User profile fetched successfully.",
-      user: userResponse,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Something went wrong" });
-  }
-});
 module.exports = router;
