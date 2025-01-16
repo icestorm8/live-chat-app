@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
+import { UserContext } from "../Context/UserContext";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const LoginForm = () => {
   // States to hold form data
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-
+  const { login } = useContext(UserContext); // Use the context
+  const nav = useNavigate();
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,12 +44,9 @@ const Login = () => {
 
       // Success - save user and token
       const { token, user } = response.data; // Destructure the response to get token and user data
-
-      // Save JWT token to localStorage
-      localStorage.setItem("authToken", token); // You can also use sessionStorage if you want the token to last for the session only
-
-      alert("logged in successfully!");
-
+      login(token, user);
+      alert(`hello ${user.username}`);
+      nav("/");
       // clear form
       setUsername("");
       setPassword("");
@@ -107,4 +107,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginForm;

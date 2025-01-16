@@ -33,6 +33,7 @@ router.post("/register", async (req, res) => {
     });
 
     // Save the user to the database
+    newUser.isOnline = true;
     await newUser.save();
 
     // Create JWT token (sign with user ID and other data)
@@ -81,6 +82,7 @@ router.post("/login", async (req, res) => {
 
     // Update the last login time
     user.lastLogin = Date.now(); // Set to current time
+    user.isOnline = true;
     await user.save(); // Save the updated user document
 
     // Create JWT token (sign with user ID and other data)
@@ -127,6 +129,25 @@ router.get("/me", authenticateToken, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Something went wrong" });
+  }
+});
+
+// PUT (UPDATE) route to set user status to 'offline'
+router.put("/setIsConnected", authenticateToken, async (req, res) => {
+  const isConnected = req.body.isConnected;
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.user.userId,
+      { isOnline: isConnected },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ message: "User not found", user: user });
+  } catch (err) {
+    res.status(500).json({ message: "Error setting user offline status" });
   }
 });
 

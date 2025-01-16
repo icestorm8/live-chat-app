@@ -1,5 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../Context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   // States to hold form data
@@ -7,7 +9,8 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState(null); // State to store user data
+  const { login } = useContext(UserContext);
+  const nav = useNavigate();
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -42,12 +45,10 @@ export default function Register() {
       // Success - save user and token
       const { token, user } = response.data; // Destructure the response to get token and user data
 
-      // Save JWT token to localStorage
-      localStorage.setItem("authToken", token); // You can also use sessionStorage if you want the token to last for the session only
+      login(token, user);
+      alert("User created successfully! redirecting to home page");
 
-      setUserData(user);
-
-      alert("User created successfully!");
+      nav("/");
 
       // clear form
       setUsername("");
@@ -88,16 +89,6 @@ export default function Register() {
           {loading ? "Creating..." : "Create Account"}
         </button>
       </form>
-
-      {userData && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>Welcome, {userData.username}!</h3>
-          <p>isOnline: {userData.isOnline}</p>
-          <p>last active: {userData.lastActive}</p>
-          <p>updated at: {userData.updatedAt}</p>
-          {/* You can display other user data as needed */}
-        </div>
-      )}
     </div>
   );
 }
