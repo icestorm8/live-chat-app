@@ -1,15 +1,31 @@
 const express = require("express"); // for using express
 const mongoose = require("mongoose"); // for using the mongodb cloud db
+const cors = require("cors"); // Import cors
 const dotenv = require("dotenv"); // for using the env variables
 const userRoutes = require("./routes/UserRoutes");
+
 // Initialize dotenv to access environment variables
 dotenv.config();
 
 const app = express();
+// allow cors only to cetain origins
+const corsOptions = {
+  origin: process.env.CLIENT, // Allow only this origin
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "Accept",
+    "X-Requested-With",
+    "XMLHttpRequest ",
+  ],
+};
+
+app.use(cors(corsOptions));
 
 // Middleware
-// app.use(express.json()); // Parse incoming JSON requests
-app.use("/api", userRoutes); // user routes
+app.use(express.json()); // Parse incoming JSON requests
+app.use("/api/users", userRoutes); // user routes
 // MongoDB Connection
 mongoose
   .connect(process.env.MONGODB_URI, {

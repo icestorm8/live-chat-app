@@ -1,14 +1,14 @@
-import React, { useState } from "react";
 import axios from "axios";
+import React, { useState } from "react";
 
-const CreateUserForm = () => {
+export default function Register() {
   // States to hold form data
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState(null); // State to store user data
-  console.log(userData);
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -100,6 +100,4 @@ const CreateUserForm = () => {
       )}
     </div>
   );
-};
-
-export default CreateUserForm;
+}
