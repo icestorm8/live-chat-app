@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // For making HTTP requests
 
-const MyChats = () => {
+const MyChats = ({ chatId, setChatId }) => {
   // State to hold the list of chats and any error message
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -41,7 +41,11 @@ const MyChats = () => {
       {/* If no chats */}
       <ul>
         {chats.map((chat) => (
-          <li key={chat._id} className="chat-item">
+          <li
+            key={chat._id}
+            className={`chat-item ${chatId === chat._id ? "selected" : ""}`}
+            onClick={() => setChatId(chat._id)}
+          >
             <h3>{chat.name}</h3>
             <p>
               Last message:{" "}

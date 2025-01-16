@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import Footer from "./Components/Footer";
 import Header from "./Components/Header";
-import Conversation from "./Pages/Conversation";
+import Conversation from "./Components/chat/Conversation";
 import LoginForm from "./Pages/Login";
 import Profile from "./Pages/Profile";
 import Register from "./Pages/Register";
