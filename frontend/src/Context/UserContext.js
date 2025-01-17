@@ -22,8 +22,7 @@ export const UserProvider = ({ children }) => {
               },
             }
           );
-          const { user } = response.data; // Destructure the response to get token and user data
-          console.log(user);
+          const { user } = response.data; // Destructure the response to get token and user dat
           setUser(user);
         } catch (error) {
           console.error("Error fetching user data:", error);
