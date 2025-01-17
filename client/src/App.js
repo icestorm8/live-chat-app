@@ -13,8 +13,7 @@ import { UserContext, useUser } from "./Context/UserContext";
 import { useContext, useEffect } from "react";
 
 const App = () => {
-  const user = useUser();
-  const { setIsConnected, setUser } = useContext(UserContext);
+  const { setIsConnected, setUser, user } = useContext(UserContext);
   // Inactivity timeout
   let inactivityTimeout;
 

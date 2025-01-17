@@ -3,10 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext, useUser } from "../Context/UserContext";
 
 export default function Header() {
-  const { user } = useUser();
-  const { logout } = useContext(UserContext); // Use the context
-
+  const { logout, user } = useContext(UserContext); // Use the context
   const nav = useNavigate();
+
   const signout = () => {
     // Clear token from localStorage (sign out the user)
     alert(`bye ${user.username}`);

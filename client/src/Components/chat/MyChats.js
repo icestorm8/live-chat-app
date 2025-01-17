@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios"; // For making HTTP requests
+import { UserContext, useUser } from "../../Context/UserContext";
 
 const MyChats = ({ chatId, setChatId }) => {
   // State to hold the list of chats and any error message
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const {user} = useContext(UserContext);
   // Fetch chats on component mount
   useEffect(() => {
     const fetchChats = async () => {
@@ -27,7 +28,9 @@ const MyChats = ({ chatId, setChatId }) => {
         setLoading(false);
       }
     };
-
+    if (user) {
+      console.log(user);
+    }
     fetchChats(); // Call the function to fetch chats
   }, []); // Empty dependency array, so this effect runs only once on mount
 

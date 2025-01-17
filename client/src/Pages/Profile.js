@@ -1,14 +1,14 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Loading from "../Components/Loading";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../Context/UserContext";
+import { UserContext } from "../Context/UserContext";
 
 // Sample user data
 const defaultProfileImage = "https://www.w3schools.com/w3images/avatar2.png"; // Default profile image URL
 
 const Profile = () => {
-  const { user } = useUser();
+  const { user } = useContext(UserContext);
 
   const nav = useNavigate();
 
