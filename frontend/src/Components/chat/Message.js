@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../Context/UserContext";
-import Loading from "../../Components/Loading";
+import Loading from "../Loading";
 const Message = ({ message }) => {
   const { user } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
