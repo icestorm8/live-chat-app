@@ -28,6 +28,13 @@ export default function Header() {
               </Link>
             </li>
           )}
+          {user && (
+            <li style={{ display: "inline", margin: "0 10px" }}>
+              <Link to="/friends" style={{ color: "#fff" }}>
+                Friends
+              </Link>
+            </li>
+          )}
           {!user && (
             <li style={{ display: "inline", margin: "0 10px" }}>
               <Link to="/login" style={{ color: "#fff" }}>

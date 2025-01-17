@@ -12,42 +12,6 @@ const Profile = () => {
 
   const nav = useNavigate();
 
-  // useEffect(() => {
-  //   getMyProfile();
-  //   // Simulate fetching user data from API
-  //   // For example: fetchUserProfileData().then(data => setUser(data));
-  // }, []);
-
-  // const getMyProfile = async () => {
-  //   setIsLoading(true);
-  //   const token = localStorage.getItem("authToken"); // You can also use sessionStorage if you want the token to last for the session only
-  //   if (token) {
-  //     try {
-  //       // Send POST request to backend to create user
-  //       const response = await axios.get(
-  //         `${process.env.REACT_APP_API_URL}/api/users/me`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`, // Required to specify the type of data
-  //           },
-  //         }
-  //       );
-
-  //       // Success - save user and token
-  //       const { user } = response.data; // Destructure the response to get token and user data
-  //       setUser(user);
-  //       // Save JWT token to localStorage
-  //     } catch (err) {
-  //       // Handle error (e.g., user already exists)
-  //       console.log(err.response?.data?.message || "Something went wrong");
-  //     }
-  //   } else {
-  //     alert("unable to verify, please login");
-  //     nav("/login");
-  //   }
-  //   setIsLoading(false);
-  // };
-
   return (
     <div>
       {!user && <Loading />}
@@ -59,6 +23,16 @@ const Profile = () => {
             style={styles.profileImage}
           />
           <h2>{user?.username}</h2>
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `${process.env.REACT_APP_DOMAIN}/users/${user?._id}`
+              );
+              alert("copied to clipboard");
+            }}
+          >
+            copy link to profile
+          </button>
           <p>
             <strong>Last Login:</strong> {user?.lastLogin}
           </p>

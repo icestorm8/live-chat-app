@@ -6,7 +6,7 @@ const cors = require("cors"); // Import cors
 const dotenv = require("dotenv"); // for using the env variables
 const userRoutes = require("./routes/UserRoutes");
 const chatRoutes = require("./routes/ChatRoutes");
-
+const messageRouts = require("./routes/MessageRoutes");
 // Initialize dotenv to access environment variables
 dotenv.config();
 
@@ -34,6 +34,7 @@ app.use(cors(corsOptions));
 app.use(express.json()); // Parse incoming JSON requests
 app.use(express.urlencoded({ extended: true })); // parse incoming requests with URL-encoded payloads, which are typically sent by HTML forms when the method is POST or PUT.
 app.use("/api/users", userRoutes); // user routes
+app.use("/api/messages", messageRouts); // chat routes
 app.use("/api/chats", chatRoutes); // chat routes
 
 // Socket.IO connection event

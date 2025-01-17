@@ -1,4 +1,5 @@
 import React from "react";
+const defaultProfileImage = "https://www.w3schools.com/w3images/avatar2.png"; // Default profile image URL
 
 const ReceiverInfoBar = ({ user }) => {
   if (!user) return <div>Loading profile...</div>;
@@ -6,7 +7,7 @@ const ReceiverInfoBar = ({ user }) => {
   return (
     <div className="profile-data-bar">
       <img
-        src={user.profilePicture || "/default-avatar.png"}
+        src={user.profilePicture || defaultProfileImage}
         alt="User Profile"
       />
       <div>

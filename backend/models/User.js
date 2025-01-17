@@ -33,6 +33,12 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    friendList: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     // avatarUrl: {
     //   type: String,
     //   default: "", // URL for profile picture (optional)

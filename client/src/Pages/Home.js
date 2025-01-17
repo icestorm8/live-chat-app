@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import MyChats from "../Components/chat/MyChats";
 import Conversation from "../Components/chat/Conversation";
-import { UserContext, useUser } from "../Context/UserContext";
+import { UserContext } from "../Context/UserContext";
 
 export default function Home() {
   const [chatId, setChatId] = useState(-1);

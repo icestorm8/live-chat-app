@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const authenticateJWT = (req, res, next) => {
   // Get the token from the Authorization header
   const token = req.header("Authorization")?.replace("Bearer ", "");
-
+  // console.log(token);
   if (!token) {
     return res
       .status(401)

@@ -12,18 +12,12 @@ const messageSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    message: {
-      type: String,
-      required: true,
-    },
-    timestamp: {
-      type: Date,
-      default: Date.now,
-    },
+    content: String,
+    timestamp: { type: Date, default: Date.now },
+    readBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Store users who have read the message
   },
   { timestamps: true }
 );
 
 const Message = mongoose.model("Message", messageSchema);
-
 module.exports = Message;

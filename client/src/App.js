@@ -11,6 +11,7 @@ import Home from "./Pages/Home";
 import PageNotFound from "./Pages/PageNotFound";
 import { UserContext, useUser } from "./Context/UserContext";
 import { useContext, useEffect } from "react";
+import MyFriends from "./Pages/MyFriends";
 
 const App = () => {
   const { setIsConnected, setUser, user } = useContext(UserContext);
@@ -63,6 +64,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/friends" element={<MyFriends />} />
           <Route path="/users/:id" element={<UserProfile />} />
           <Route path="/chat/:id" element={<Conversation />} />
           <Route path="/login" element={<LoginForm />} />

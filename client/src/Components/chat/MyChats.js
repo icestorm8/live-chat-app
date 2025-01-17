@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios"; // For making HTTP requests
 import { UserContext, useUser } from "../../Context/UserContext";
-
+import "./Chat.css";
 const MyChats = ({ chatId, setChatId }) => {
   // State to hold the list of chats and any error message
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   // Fetch chats on component mount
   useEffect(() => {
     const fetchChats = async () => {
       try {
+        // console.log(`${process.env.REACT_APP_API_URL}/api/chats/`);
         // Make a request to fetch the list of chats
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/chats`,
@@ -21,18 +22,24 @@ const MyChats = ({ chatId, setChatId }) => {
             },
           }
         );
-        setChats(response.data); // Set the list of chats
+
+        const { chats } = response.data;
+        if (chats) {
+          setChats(chats); // Set the list of chats
+        } else {
+          setError(response.data.message);
+        }
       } catch (err) {
         setError("Error fetching chats.");
+        console.log(err);
       } finally {
         setLoading(false);
       }
     };
     if (user) {
-      console.log(user);
+      fetchChats(); // Call the function to fetch chats
     }
-    fetchChats(); // Call the function to fetch chats
-  }, []); // Empty dependency array, so this effect runs only once on mount
+  }, [user, chatId]); // Empty dependency array, so this effect runs only once on mount
 
   return (
     <div className="my-chats">
@@ -44,19 +51,42 @@ const MyChats = ({ chatId, setChatId }) => {
       {/* If no chats */}
       <ul>
         {chats.map((chat) => (
-          <li
+          <div
             key={chat._id}
             className={`chat-item ${chatId === chat._id ? "selected" : ""}`}
+            style={{
+              display: "inline-flex",
+              width: "95%",
+              flexDirection: "column",
+
+              alignItems: "start",
+              justifyContent: "center",
+            }}
             onClick={() => setChatId(chat._id)}
           >
-            <h3>{chat.name}</h3>
-            <p>
-              Last message:{" "}
-              {chat.lastMessage ? chat.lastMessage.text : "No messages yet"}
-            </p>
-            <p>Participants: {chat.participants.join(", ")}</p>
-            {/* You can add other chat info as needed */}
-          </li>
+            {" "}
+            <h3>{chat.otherUserName}</h3>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "1em",
+                alignItems: "center",
+              }}
+            >
+              {" "}
+              <b>
+                {chat.lastMessage.username === user.username
+                  ? "you: "
+                  : `${chat.lastMessage.username}: `}
+              </b>
+              <p>
+                {chat.lastMessage
+                  ? chat.lastMessage.content
+                  : "No messages yet"}
+              </p>
+            </div>
+          </div>
         ))}
       </ul>
     </div>
